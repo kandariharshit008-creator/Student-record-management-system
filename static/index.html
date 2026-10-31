@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Students | Campus Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="Campus Desk home">
+          <span class="brand-mark">C</span>
+          <span>campus<span class="brand-light">desk</span></span>
+        </a>
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav aria-label="Main navigation">
+          <a class="nav-link active" href="#students"><span class="nav-icon">▦</span> Students</a>
+          <a class="nav-link" href="#overview"><span class="nav-icon">◫</span> Overview</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon">?</span>
+            <strong>Need a hand?</strong>
+            <p>Manage your student records with ease.</p>
+          </div>
+          <div class="profile">
+            <div class="avatar">AD</div>
+            <div><strong>Administrator</strong><span>School admin</span></div>
+            <span class="profile-menu">···</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumbs">Workspace <span>/</span> <strong>Students</strong></div>
+          <div class="topbar-right">
+            <span class="today" id="today"></span>
+            <button class="icon-button" aria-label="Notifications">♧<i></i></button>
+            <div class="top-avatar">AD</div>
+          </div>
+        </header>
+
+        <section class="page" id="overview">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">PEOPLE &amp; RECORDS</div>
+              <h1>Students <span class="title-spark">✳</span></h1>
+              <p class="subtitle">Keep your student community organized and up to date.</p>
+            </div>
+            <button class="primary-button" id="add-student"><span>＋</span> Add student</button>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-top"><span>Total students</span><span class="stat-icon violet">♙</span></div>
+              <div class="stat-value" id="total-count">—</div>
+              <div class="stat-caption"><span class="caption-dot violet-dot"></span> Across all records</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span>Active students</span><span class="stat-icon green">↗</span></div>
+              <div class="stat-value" id="active-count">—</div>
+              <div class="stat-caption"><span class="caption-dot green-dot"></span> Currently enrolled</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span>Courses</span><span class="stat-icon orange">▤</span></div>
+              <div class="stat-value" id="course-count">—</div>
+              <div class="stat-caption"><span class="caption-dot orange-dot"></span> Unique programs</div>
+            </article>
+          </div>
+
+          <section class="records-card" id="students">
+            <div class="records-heading">
+              <div>
+                <h2>All students <span class="count-pill" id="visible-count">0</span></h2>
+                <p>A complete list of students in your institution.</p>
+              </div>
+              <div class="table-tools">
+                <label class="search-box">
+                  <span aria-hidden="true">⌕</span>
+                  <input id="search" type="search" placeholder="Search students..." aria-label="Search students">
+                  <kbd>⌘ K</kbd>
+                </label>
+                <button class="filter-button" id="filter-button"><span>☷</span> <span id="filter-label">All students</span> <b>⌄</b></button>
+                <select id="status-filter" aria-label="Filter by status">
+                  <option value="All">All students</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>STUDENT</th><th>ROLL NUMBER</th><th>COURSE</th><th>YEAR</th><th>STATUS</th><th></th></tr>
+                </thead>
+                <tbody id="student-rows"></tbody>
+              </table>
+              <div class="empty-state" id="empty-state">
+                <span class="empty-icon">♙</span>
+                <strong>No students yet</strong>
+                <p>Add your first student to get started.</p>
+                <button class="primary-button small-button" id="empty-add">＋ Add student</button>
+              </div>
+              <div class="error-state" id="error-state" hidden>Could not load student records. Check that the backend is running, then <button id="retry">try again</button>.</div>
+            </div>
+            <footer class="table-footer">
+              <span id="page-summary">Showing 0 students</span>
+              <div class="pagination"><button id="previous-page" aria-label="Previous page">‹</button><span class="page-number" id="page-number" aria-live="polite">1 / 1</span><button id="next-page" aria-label="Next page">›</button></div>
+            </footer>
+          </section>
+          <footer class="page-footer"><span>© <span id="current-year"></span> Campus Desk</span><span>Student records, made simple.</span></footer>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="student-dialog">
+      <form id="student-form">
+        <div class="dialog-heading">
+          <div><div class="eyebrow">STUDENT DETAILS</div><h2 id="dialog-title">Add student</h2></div>
+          <button type="button" class="close-button" id="close-dialog" aria-label="Close dialog">×</button>
+        </div>
+        <input type="hidden" id="student-id">
+        <label>Full name<input id="full-name" name="full_name" required minlength="2" maxlength="100" placeholder="e.g. Alex Morgan"></label>
+        <div class="form-row">
+          <label>Roll number<input id="roll-number" name="roll_number" required maxlength="30" placeholder="e.g. STU-1042"></label>
+          <label>Year<select id="year" name="year" required><option value="1">Year 1</option><option value="2">Year 2</option><option value="3">Year 3</option><option value="4">Year 4</option><option value="5">Year 5</option><option value="6">Year 6</option><option value="7">Year 7</option><option value="8">Year 8</option></select></label>
+        </div>
+        <label>Email address<input id="email" name="email" type="email" required maxlength="254" placeholder="alex@university.edu"></label>
+        <label>Course<input id="course" name="course" required minlength="2" maxlength="100" placeholder="e.g. Computer Science"></label>
+        <label>Status<select id="status" name="status"><option>Active</option><option>Inactive</option></select></label>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions"><button type="button" class="secondary-button" id="cancel-dialog">Cancel</button><button class="primary-button" type="submit" id="save-student">Save student</button></div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
